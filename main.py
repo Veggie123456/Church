@@ -483,6 +483,37 @@ async def clear_leaderboard_command(update: Update, context: ContextTypes.DEFAUL
         logger.error(f"Error clearing leaderboard: {e}")
         await update.message.reply_text("❌ Error clearing leaderboard")
 
+async def clear_ideas_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Hidden admin command to clear all ideas - only for @DarthMagician"""
+    if not is_allowed_group(update):
+        return
+    
+    # Check if user is @DarthMagician
+    user = update.effective_user
+    if user.username != "DarthMagician":
+        await update.message.reply_text("❌ Access denied. This command is restricted.")
+        return
+    
+    try:
+        # Clear all ideas
+        if "ideas" in db.data:
+            db.data["ideas"] = []
+            db.save_data()
+            
+            await update.message.reply_text(
+                "🗑️ **Ideas Cleared!**\n\n"
+                "All submitted ideas have been removed.\n"
+                "The ideas list is now empty! 🙏"
+            )
+            
+            logger.info(f"Ideas cleared by admin user: {user.username}")
+        else:
+            await update.message.reply_text("ℹ️ No ideas to clear.")
+        
+    except Exception as e:
+        logger.error(f"Error clearing ideas: {e}")
+        await update.message.reply_text("❌ Error clearing ideas. Please try again.")
+
 
 def is_allowed_group(update: Update) -> bool:
     """Check if the message is from the allowed group."""
@@ -580,6 +611,7 @@ def main():
     application.add_handler(CommandHandler("submitidea", submit_idea_command))
     application.add_handler(CommandHandler("ideas", ideas_command))
     application.add_handler(CommandHandler("clearleaderboard", clear_leaderboard_command))
+    application.add_handler(CommandHandler("clearideas", clear_ideas_command))
     
     # Add error handler
     application.add_error_handler(error_handler)
