@@ -416,10 +416,9 @@ async def ideas_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     if not ideas:
         await update.message.reply_text(
-            "💡 **Community Ideas** 💡\n\n"
+            "💡 Community Ideas 💡\n\n"
             "No ideas submitted yet! Be the first to suggest a feature!\n\n"
-            "Use `/submitidea <your idea>` to submit your suggestions! 🙏",
-            parse_mode=ParseMode.MARKDOWN
+            "Use /submitidea <your idea> to submit your suggestions! 🙏"
         )
         return
     
@@ -429,7 +428,7 @@ async def ideas_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ideas_text = "💡 Community Ideas 💡\n\n"
     
     for idea in reversed(recent_ideas):  # Show newest first
-        ideas_text += f"#{idea['id']} - @{idea['username']}\n"
+        ideas_text += f"#{idea['id']} - {idea['username']}\n"
         ideas_text += f"💭 \"{idea['idea']}\"\n"
         ideas_text += f"📅 {idea['date']}\n\n"
     
