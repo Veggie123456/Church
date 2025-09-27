@@ -426,27 +426,25 @@ async def ideas_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Show latest 10 ideas
     recent_ideas = ideas[-10:] if len(ideas) > 10 else ideas
     
-    ideas_text = "💡 **Community Ideas** 💡\n\n"
+    ideas_text = "💡 Community Ideas 💡\n\n"
     
     for idea in reversed(recent_ideas):  # Show newest first
-        # Escape special characters for markdown
-        safe_idea = idea['idea'].replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace('`', '\\`')
-        ideas_text += f"**#{idea['id']}** - @{idea['username'].replace('_', '\\_')}\n"
-        ideas_text += f"💭 \"{safe_idea}\"\n"
+        ideas_text += f"#{idea['id']} - @{idea['username']}\n"
+        ideas_text += f"💭 \"{idea['idea']}\"\n"
         ideas_text += f"📅 {idea['date']}\n\n"
     
     if len(ideas) > 10:
         ideas_text += f"... and {len(ideas) - 10} more ideas!\n\n"
     
-    ideas_text += "Submit your ideas with `/submitidea <your idea>` 🙏"
+    ideas_text += "Submit your ideas with /submitidea <your idea> 🙏"
     
     # Split long messages if needed
     if len(ideas_text) > 4000:
         parts = [ideas_text[i:i+4000] for i in range(0, len(ideas_text), 4000)]
         for part in parts:
-            await update.message.reply_text(part, parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text(part)
     else:
-        await update.message.reply_text(ideas_text, parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text(ideas_text)
 
 async def clear_leaderboard_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Hidden admin command to clear leaderboard - only for @DarthMagician"""
