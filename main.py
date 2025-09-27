@@ -56,7 +56,8 @@ Available commands:
 /jfc - Get a random image from the church collection
 /stats - View prayer statistics
 /leaderboard - View top 10 most prayed cryptocurrencies
-# Removed leaderboardimage command
+/submitidea <idea> - Submit an idea for new features
+/ideas - View all submitted ideas
 /help - Show this help message
 
 May your investments be blessed! ✝️
@@ -91,6 +92,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 **Fun Commands:**
 • `/jfc` - Get a random image from the church collection
 
+**Community Commands:**
+• `/submitidea <idea>` - Submit an idea for new features
+• `/ideas` - View all submitted ideas from the community
+
 **Information:**
 • `/help` - Show this help message
 • `/start` - Welcome message
@@ -102,6 +107,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 • `/verse Romans 8:28` - Get specific verse
 • `/chapter Genesis 1` - Get first chapter of Genesis
 • `/search love` - Search for verses about love
+• `/submitidea Add crypto price alerts` - Submit a feature idea
+• `/ideas` - View community suggestions
 
 Remember: You can only pray for each ticker once per day! 🙏
     """
@@ -377,6 +384,77 @@ The bot will use built-in Bible verses instead.
     
     await update.message.reply_text(status_text.strip(), parse_mode=ParseMode.MARKDOWN)
 
+async def submit_idea_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle the /submitidea command."""
+    if not is_allowed_group(update):
+        return
+    
+    if not context.args:
+        await update.message.reply_text(
+            "💡 Please provide your idea!\n\n"
+            "Usage: `/submitidea <your idea>`\n"
+            "Example: `/submitidea Add a command to show crypto prices`",
+            parse_mode=ParseMode.MARKDOWN
+        )
+        return
+    
+    idea = " ".join(context.args)
+    user = update.effective_user
+    username = user.username or user.first_name or "Anonymous"
+    
+    # Add idea to database
+    result = db.add_idea(idea, user.id, username)
+    
+    if result["success"]:
+        await update.message.reply_text(
+            f"💡 **{result['message']}**\n\n"
+            f"Idea ID: #{result['idea_id']}\n"
+            f"Your idea: \"{idea}\"\n\n"
+            f"Thank you for helping improve the bot! 🙏✝️",
+            parse_mode=ParseMode.MARKDOWN
+        )
+    else:
+        await update.message.reply_text(result["message"])
+
+async def ideas_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle the /ideas command to show all submitted ideas."""
+    if not is_allowed_group(update):
+        return
+    
+    ideas = db.get_all_ideas()
+    
+    if not ideas:
+        await update.message.reply_text(
+            "💡 **Community Ideas** 💡\n\n"
+            "No ideas submitted yet! Be the first to suggest a feature!\n\n"
+            "Use `/submitidea <your idea>` to submit your suggestions! 🙏",
+            parse_mode=ParseMode.MARKDOWN
+        )
+        return
+    
+    # Show latest 10 ideas
+    recent_ideas = ideas[-10:] if len(ideas) > 10 else ideas
+    
+    ideas_text = "💡 **Community Ideas** 💡\n\n"
+    
+    for idea in reversed(recent_ideas):  # Show newest first
+        ideas_text += f"**#{idea['id']}** - @{idea['username']}\n"
+        ideas_text += f"💭 \"{idea['idea']}\"\n"
+        ideas_text += f"📅 {idea['date']}\n\n"
+    
+    if len(ideas) > 10:
+        ideas_text += f"... and {len(ideas) - 10} more ideas!\n\n"
+    
+    ideas_text += "Submit your ideas with `/submitidea <your idea>` 🙏"
+    
+    # Split long messages if needed
+    if len(ideas_text) > 4000:
+        parts = [ideas_text[i:i+4000] for i in range(0, len(ideas_text), 4000)]
+        for part in parts:
+            await update.message.reply_text(part, parse_mode=ParseMode.MARKDOWN)
+    else:
+        await update.message.reply_text(ideas_text, parse_mode=ParseMode.MARKDOWN)
+
 async def clear_leaderboard_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Hidden admin command to clear leaderboard - only for @DarthMagician"""
     if not is_allowed_group(update):
@@ -395,7 +473,8 @@ async def clear_leaderboard_command(update: Update, context: ContextTypes.DEFAUL
             "user_stats": {},
             "last_verse_time": None,
             "total_prayers": 0,
-            "leaderboard_history": []
+            "leaderboard_history": [],
+            "ideas": []
         }
         db.save_data()
         
@@ -506,6 +585,8 @@ def main():
     # Removed leaderboardimage command handler
     application.add_handler(CommandHandler("globalstats", global_stats_command))
     application.add_handler(CommandHandler("biblestatus", bible_status_command))
+    application.add_handler(CommandHandler("submitidea", submit_idea_command))
+    application.add_handler(CommandHandler("ideas", ideas_command))
     application.add_handler(CommandHandler("clearleaderboard", clear_leaderboard_command))
     
     # Add error handler

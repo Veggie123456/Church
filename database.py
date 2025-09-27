@@ -31,7 +31,8 @@ class PrayerDatabase:
             "user_stats": {},
             "last_verse_time": None,
             "total_prayers": 0,
-            "leaderboard_history": []
+            "leaderboard_history": [],
+            "ideas": []
         }
     
     def add_prayer(self, ticker: str, user_id: int, username: str) -> Dict:
@@ -160,4 +161,46 @@ class PrayerDatabase:
         if self.data["leaderboard_history"]:
             return self.data["leaderboard_history"][-1]["leaderboard"]
         return self.get_top_tickers(10)
+    
+    def add_idea(self, idea: str, user_id: int, username: str) -> Dict:
+        """Add a new idea submission"""
+        if not idea or not idea.strip():
+            return {
+                "success": False,
+                "message": "Please provide an idea! 🙏"
+            }
+        
+        # Ensure ideas list exists
+        if "ideas" not in self.data:
+            self.data["ideas"] = []
+        
+        idea_record = {
+            "id": len(self.data["ideas"]) + 1,
+            "idea": idea.strip(),
+            "user_id": user_id,
+            "username": username,
+            "timestamp": datetime.now().isoformat(),
+            "date": datetime.now().strftime("%Y-%m-%d")
+        }
+        
+        self.data["ideas"].append(idea_record)
+        self.save_data()
+        
+        return {
+            "success": True,
+            "message": f"💡 Idea submitted successfully! Thank you for your contribution!",
+            "idea_id": idea_record["id"]
+        }
+    
+    def get_all_ideas(self) -> List[Dict]:
+        """Get all submitted ideas"""
+        if "ideas" not in self.data:
+            return []
+        return self.data["ideas"]
+    
+    def get_ideas_by_user(self, user_id: int) -> List[Dict]:
+        """Get ideas submitted by a specific user"""
+        if "ideas" not in self.data:
+            return []
+        return [idea for idea in self.data["ideas"] if idea["user_id"] == user_id]
 
