@@ -37,15 +37,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_allowed_group(update):
         return
     
-    # Check if Bible API is available
-    api_status = "✅ Bible API Available" if bible_service.is_api_available() else "❌ Bible API Not Available (using built-in verses)"
-    
     welcome_message = f"""
 🙏 Welcome to the Crypto Church Bot! 🙏
 
 This bot helps you pray for your favorite cryptocurrencies and receive spiritual guidance.
-
-{api_status}
 
 Available commands:
 /pray <ticker> - Pray for a specific cryptocurrency ticker
@@ -70,12 +65,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_allowed_group(update):
         return
     
-    api_status = "✅ Bible API Available" if bible_service.is_api_available() else "❌ Bible API Not Available"
-    
     help_text = f"""
 🙏 **Crypto Church Bot Commands** 🙏
-
-{api_status}
 
 **Prayer Commands:**
 • `/pray <ticker>` - Pray for a cryptocurrency (e.g., `/pray BTC`)
