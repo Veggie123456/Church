@@ -1,0 +1,69 @@
+{
+  "prayers": {
+    "SOL": {
+      "count": 1,
+      "prayers": [
+        {
+          "user_id": 6176165248,
+          "username": "DarthMagician",
+          "date": "2025-09-26",
+          "timestamp": "2025-09-26T23:44:08.761980"
+        }
+      ],
+      "last_prayer": "2025-09-26T23:44:08.761980"
+    },
+    "TICKER": {
+      "count": 1,
+      "prayers": [
+        {
+          "user_id": 6176165248,
+          "username": "DarthMagician",
+          "date": "2025-09-26",
+          "timestamp": "2025-09-26T23:44:13.901772"
+        }
+      ],
+      "last_prayer": "2025-09-26T23:44:13.901772"
+    }
+  },
+  "user_stats": {
+    "6176165248": {
+      "username": "DarthMagician",
+      "total_prayers": 2,
+      "tickers_prayed_for": [
+        "SOL",
+        "TICKER"
+      ]
+    }
+  },
+  "last_verse_time": null,
+  "total_prayers": 2,
+  "leaderboard_history": [
+    {
+      "timestamp": "2025-09-26T23:44:08.762981",
+      "total_prayers": 1,
+      "leaderboard": [
+        {
+          "ticker": "SOL",
+          "count": 1,
+          "last_prayer": "2025-09-26T23:44:08.761980"
+        }
+      ]
+    },
+    {
+      "timestamp": "2025-09-26T23:44:13.901772",
+      "total_prayers": 2,
+      "leaderboard": [
+        {
+          "ticker": "SOL",
+          "count": 1,
+          "last_prayer": "2025-09-26T23:44:08.761980"
+        },
+        {
+          "ticker": "TICKER",
+          "count": 1,
+          "last_prayer": "2025-09-26T23:44:13.901772"
+        }
+      ]
+    }
+  ]
+}
