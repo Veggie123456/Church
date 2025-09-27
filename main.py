@@ -431,12 +431,12 @@ async def ideas_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for idea in reversed(recent_ideas):  # Show newest first
         # Escape special characters for markdown
         safe_idea = idea['idea'].replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace('`', '\\`')
-        ideas_text += f"**#{idea['id']}** - @{idea['username']}\n"
+        ideas_text += f"**#{idea['id']}** - @{idea['username'].replace('_', '\\_')}\n"
         ideas_text += f"💭 \"{safe_idea}\"\n"
         ideas_text += f"📅 {idea['date']}\n\n"
     
     if len(ideas) > 10:
-        ideas_text += f"... and {len(ideas) - 10} more ideas!\\n\\n"
+        ideas_text += f"... and {len(ideas) - 10} more ideas!\n\n"
     
     ideas_text += "Submit your ideas with `/submitidea <your idea>` 🙏"
     
