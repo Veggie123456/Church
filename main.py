@@ -409,7 +409,9 @@ async def submit_idea_command(update: Update, context: ContextTypes.DEFAULT_TYPE
 
 async def ideas_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle the /ideas command to show all submitted ideas."""
+    logger.info("IDEAS COMMAND CALLED")
     if not is_allowed_group(update):
+        logger.info("IDEAS COMMAND: Not allowed group")
         return
     
     ideas = db.get_all_ideas()
