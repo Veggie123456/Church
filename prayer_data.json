@@ -1,8 +1,106 @@
 {
-  "prayers": {},
-  "user_stats": {},
+  "prayers": {
+    "KOSHER": {
+      "count": 3,
+      "prayers": [
+        {
+          "user_id": 7287475040,
+          "username": "Apetardeded",
+          "date": "2025-09-27",
+          "timestamp": "2025-09-27T15:25:57.168491"
+        },
+        {
+          "user_id": 2147303416,
+          "username": "theburdmannn",
+          "date": "2025-09-27",
+          "timestamp": "2025-09-27T15:26:05.062920"
+        },
+        {
+          "user_id": 5161740798,
+          "username": "Vegeta_calls",
+          "date": "2025-09-27",
+          "timestamp": "2025-09-27T15:32:45.465008"
+        }
+      ],
+      "last_prayer": "2025-09-27T15:32:45.465008"
+    }
+  },
+  "user_stats": {
+    "7287475040": {
+      "username": "Apetardeded",
+      "total_prayers": 1,
+      "tickers_prayed_for": [
+        "KOSHER"
+      ]
+    },
+    "2147303416": {
+      "username": "theburdmannn",
+      "total_prayers": 1,
+      "tickers_prayed_for": [
+        "KOSHER"
+      ]
+    },
+    "5161740798": {
+      "username": "Vegeta_calls",
+      "total_prayers": 1,
+      "tickers_prayed_for": [
+        "KOSHER"
+      ]
+    }
+  },
   "last_verse_time": null,
-  "total_prayers": 0,
-  "leaderboard_history": [],
-  "ideas": []
+  "total_prayers": 3,
+  "leaderboard_history": [
+    {
+      "timestamp": "2025-09-27T15:25:57.168491",
+      "total_prayers": 1,
+      "leaderboard": [
+        {
+          "ticker": "KOSHER",
+          "count": 1,
+          "last_prayer": "2025-09-27T15:25:57.168491"
+        }
+      ]
+    },
+    {
+      "timestamp": "2025-09-27T15:26:05.064255",
+      "total_prayers": 2,
+      "leaderboard": [
+        {
+          "ticker": "KOSHER",
+          "count": 2,
+          "last_prayer": "2025-09-27T15:26:05.062920"
+        }
+      ]
+    },
+    {
+      "timestamp": "2025-09-27T15:32:45.466025",
+      "total_prayers": 3,
+      "leaderboard": [
+        {
+          "ticker": "KOSHER",
+          "count": 3,
+          "last_prayer": "2025-09-27T15:32:45.465008"
+        }
+      ]
+    }
+  ],
+  "ideas": [
+    {
+      "id": 1,
+      "idea": "submit ideas for tools you’d want to use",
+      "user_id": 5161740798,
+      "username": "Vegeta_calls",
+      "timestamp": "2025-09-27T15:33:32.793899",
+      "date": "2025-09-27"
+    },
+    {
+      "id": 2,
+      "idea": "Test idea for debugging",
+      "user_id": 12345,
+      "username": "TestUser",
+      "timestamp": "2025-09-27T15:38:27.271006",
+      "date": "2025-09-27"
+    }
+  ]
 }
